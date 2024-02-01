@@ -4,7 +4,7 @@ import {
   useApp,
   useCollectFile,
   useCreateIndexFile,
-  useLoadDatatokens,
+  useLoadDataTokens,
   useFeedsByAddress,
   useMonetizeFile,
   useStore,
@@ -81,10 +81,10 @@ export const Home = () => {
     },
   );
 
-  const { datatokenInfos, loadDatatokens } = useLoadDatatokens({
+  const { dataTokenInfos, loadDataTokens } = useLoadDataTokens({
     onSuccess: result => {
       console.log(
-        "[datatokenInfos]get datatoken info success, result:",
+        "[dataTokenInfos]get dataToken info success, result:",
         result,
       );
     },
@@ -201,8 +201,8 @@ export const Home = () => {
 
     // monetizeFile({
     //   fileId: currentFileId,
-    //   datatokenVars: {
-    //     type: datatokenType,
+    //   dataTokenVars: {
+    //     type: dataTokenType,
     //     collectModule: "LimitedFeeCollectModule",
     //     chainId: ChainId.Mumbai,
     //     currency: Currency.WMATIC,
@@ -213,20 +213,20 @@ export const Home = () => {
     // });
   }, [currentFileId, monetizeFile]);
 
-  const getDatatokenInfoByFileId = useCallback(async () => {
+  const getDataTokenInfoByFileId = useCallback(async () => {
     if (!currentFileId) {
       console.error("currentFileId undefined");
       return;
     }
-    loadDatatokens([currentFileId]);
-  }, [loadDatatokens, currentFileId]);
+    loadDataTokens([currentFileId]);
+  }, [loadDataTokens, currentFileId]);
 
   const collectPost = useCallback(async () => {
     if (!currentFileId) {
       console.error("currentFileId undefined");
       return;
     }
-    collectFile(currentFileId);
+    collectFile({ fileId: currentFileId });
   }, [collectFile]);
 
   const unlockPost = useCallback(async () => {
@@ -272,10 +272,10 @@ export const Home = () => {
           <ReactJson src={monetizedPost} collapsed={true} />
         </div>
       )}
-      <button onClick={getDatatokenInfoByFileId}>datatokenInfos</button>
-      {datatokenInfos?.[0] && (
+      <button onClick={getDataTokenInfoByFileId}>dataTokenInfos</button>
+      {dataTokenInfos?.[0] && (
         <div className='json-view'>
-          <ReactJson src={datatokenInfos[0]} collapsed={true} />
+          <ReactJson src={dataTokenInfos[0]} collapsed={true} />
         </div>
       )}
       <br />

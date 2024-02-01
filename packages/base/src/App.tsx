@@ -1,11 +1,13 @@
 import "./App.css";
 import React, { useState, useCallback } from "react";
 
+import { ChainId } from "@arcstone/arcstone-sdk";
+import { DEPLOYED_ADDRESSES as TOKEN_DEPLOYED_ADDRESSES } from "@arcstone/arcstone-sdk/data-token";
 import {
   useApp,
   useCollectFile,
   useCreateIndexFile,
-  useLoadDatatokens,
+  useLoadDataTokens,
   useFeedsByAddress,
   useMonetizeFile,
   useStore,
@@ -19,6 +21,7 @@ import app from "../output/app.json";
 
 const postVersion = "0.0.1";
 const modelParser = new ModelParser(app as Output);
+const chainId = ChainId.PolygonMumbai;
 
 const App = () => {
   const postModel = modelParser.getModelByName("post");
@@ -83,9 +86,12 @@ const App = () => {
     },
   );
 
-  const { datatokenInfos, loadDatatokens } = useLoadDatatokens({
+  const { dataTokenInfos, loadDataTokens } = useLoadDataTokens({
     onSuccess: result => {
-      console.log("[datatokenInfos]get datatoken info success, result:", result);
+      console.log(
+        "[dataTokenInfos]get dataToken info success, result:",
+        result,
+      );
     },
   });
 
@@ -198,34 +204,32 @@ const App = () => {
       return;
     }
 
-    // monetizeFile({
-    //   fileId: currentFileId,
-    //   datatokenVars: {
-    //     type: datatokenType,
-    //     collectModule: "LimitedFeeCollectModule",
-    //     chainId: ChainId.Mumbai,
-    //     currency: Currency.WMATIC,
-    //     amount: 0.0001,
-    //     collectLimit: 1000,
-    //   },
-    //   unlockingTimeStamp: String(Date.now() / 1000 + 5 * 60),
-    // });
+    await monetizeFile({
+      fileId: currentFileId,
+      chainId,
+      actionsConfig: {
+        collectAction: {
+          currency: TOKEN_DEPLOYED_ADDRESSES[chainId].WMATIC,
+          amount: 1000,
+        },
+      },
+    });
   }, [currentFileId, monetizeFile]);
 
-  const getDatatokenInfoByFileId = useCallback(async () => {
+  const getDataTokenInfoByFileId = useCallback(async () => {
     if (!currentFileId) {
       console.error("currentFileId undefined");
       return;
     }
-    loadDatatokens([currentFileId]);
-  }, [loadDatatokens, currentFileId]);
+    loadDataTokens([currentFileId]);
+  }, [loadDataTokens, currentFileId]);
 
   const collectPost = useCallback(async () => {
     if (!currentFileId) {
       console.error("currentFileId undefined");
       return;
     }
-    collectFile(currentFileId);
+    collectFile({ fileId: currentFileId });
   }, [collectFile]);
 
   const unlockPost = useCallback(async () => {
@@ -271,10 +275,10 @@ const App = () => {
           <ReactJson src={monetizedPost} collapsed={true} />
         </div>
       )}
-      <button onClick={getDatatokenInfoByFileId}>datatokenInfos</button>
-      {datatokenInfos?.[0] && (
+      <button onClick={getDataTokenInfoByFileId}>dataTokenInfos</button>
+      {dataTokenInfos?.[0] && (
         <div className='json-view'>
-          <ReactJson src={datatokenInfos[0]} collapsed={true} />
+          <ReactJson src={dataTokenInfos[0]} collapsed={true} />
         </div>
       )}
       <br />
