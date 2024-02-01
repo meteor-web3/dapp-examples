@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
 <a href=" " target="_blank">
-<img src="./vite.png" width="180" alt="Meteor logo">
+<img src="./public/logo.png" width="180" alt="Meteor logo">
 </a >
 </p >
 <br/>
