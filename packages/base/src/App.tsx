@@ -31,7 +31,7 @@ const App = () => {
    * @summary import from @meteor-web3/hooks
    */
 
-  const { pkh, filesMap: posts, set } = useStore();
+  const { pkh, filesMap: posts } = useStore();
 
   const { connectApp } = useApp({
     appId: modelParser.appId,
