@@ -35,7 +35,7 @@ const App = () => {
   const { pkh, filesMap: posts, setConnector } = useStore();
 
   useEffect(() => {
-    setConnector(new Connector(new MeteorWebProvider()));
+    setConnector(new Connector(new MeteorWebProvider(window.ethereum)));
   }, []);
 
   const { connectApp } = useApp({
