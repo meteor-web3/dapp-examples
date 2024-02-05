@@ -1,8 +1,9 @@
 import "./App.css";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 
 import { ChainId } from "@arcstone/arcstone-sdk";
 import { DEPLOYED_ADDRESSES as TOKEN_DEPLOYED_ADDRESSES } from "@arcstone/arcstone-sdk/data-token";
+import { Connector, MeteorWebProvider } from "@meteor-web3/connector";
 import {
   useApp,
   useCollectFile,
@@ -31,7 +32,11 @@ const App = () => {
    * @summary import from @meteor-web3/hooks
    */
 
-  const { pkh, filesMap: posts, set } = useStore();
+  const { pkh, filesMap: posts, setConnector } = useStore();
+
+  useEffect(() => {
+    setConnector(new Connector(new MeteorWebProvider()));
+  }, []);
 
   const { connectApp } = useApp({
     appId: modelParser.appId,
