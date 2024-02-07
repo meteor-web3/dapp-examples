@@ -9,7 +9,7 @@ import "./index.css";
 import "@arco-design/web-react/dist/css/arco.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <MeteorContextProvider>
+  <MeteorContextProvider autoInit={false}>
     <App />
   </MeteorContextProvider>,
 );

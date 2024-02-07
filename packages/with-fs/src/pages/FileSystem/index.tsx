@@ -1,5 +1,6 @@
 import React, { useCallback, useContext } from "react";
 
+import { Auth } from "@meteor-web3/components";
 import {
   ActionType,
   MirrorFile,
@@ -7,7 +8,8 @@ import {
   StructuredFolder,
 } from "@meteor-web3/connector";
 import {
-  useApp,
+  MeteorContext,
+  // useApp,
   useChangeFolderBaseInfo,
   useCreateActionFile,
   useCreateBareFile,
@@ -29,20 +31,13 @@ import { AppContext } from "../../main";
 export const FileSystem = () => {
   const { modelParser } = useContext(AppContext);
   const navigate = useNavigate();
+  const meteorContext = useContext(MeteorContext);
 
   /**
    * @summary import from @meteor-web3/hooks
    */
 
   const { pkh, foldersMap } = useStore();
-
-  const { connectApp } = useApp({
-    appId: modelParser.appId,
-    autoConnect: true,
-    onSuccess: result => {
-      console.log("[connect]connect app success, result:", result);
-    },
-  });
 
   const { createFolder, createdFolder } = useCreateFolder({
     onSuccess: result => {
@@ -128,8 +123,11 @@ export const FileSystem = () => {
    * @summary custom methods
    */
   const connect = useCallback(async () => {
-    connectApp();
-  }, [connectApp]);
+    const connectRes = await Auth.openModal(meteorContext, {
+      appId: modelParser.appId,
+    });
+    console.log(connectRes);
+  }, []);
 
   const handleCreateFolder = useCallback(async () => {
     createFolder({

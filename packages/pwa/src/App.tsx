@@ -1,11 +1,13 @@
 import "./App.css";
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useContext } from "react";
 
 import { ChainId } from "@arcstone/arcstone-sdk";
 import { DEPLOYED_ADDRESSES as TOKEN_DEPLOYED_ADDRESSES } from "@arcstone/arcstone-sdk/data-token";
-import { Connector, MeteorWebProvider } from "@meteor-web3/connector";
+import { message, useAuth } from "@meteor-web3/components";
+// import { Connector, MeteorWebProvider } from "@meteor-web3/connector";
+import { WALLET } from "@meteor-web3/connector";
 import {
-  useApp,
+  // useApp,
   useCollectFile,
   useCreateIndexFile,
   useLoadDataTokens,
@@ -14,6 +16,7 @@ import {
   useStore,
   useUnlockFile,
   useUpdateIndexFile,
+  MeteorContext,
 } from "@meteor-web3/hooks";
 import { ModelParser, Output } from "@meteor-web3/model-parser";
 import ReactJson from "react-json-view";
@@ -27,24 +30,26 @@ const chainId = ChainId.PolygonMumbai;
 const App = () => {
   const postModel = modelParser.getModelByName("post");
   const [currentFileId, setCurrentFileId] = useState<string>();
+  const meteorContext = useContext(MeteorContext);
+  const { connectWallet } = useAuth(modelParser.appId, meteorContext);
 
   /**
    * @summary import from @meteor-web3/hooks
    */
 
-  const { pkh, filesMap: posts, setConnector } = useStore();
+  const { pkh, filesMap: posts } = useStore();
 
-  useEffect(() => {
-    setConnector(new Connector(new MeteorWebProvider(window.ethereum)));
-  }, []);
+  // useEffect(() => {
+  //   setConnector(new Connector(new MeteorWebProvider(window.ethereum)));
+  // }, []);
 
-  const { connectApp } = useApp({
-    appId: modelParser.appId,
-    autoConnect: true,
-    onSuccess: result => {
-      console.log("[connect]connect app success, result:", result);
-    },
-  });
+  // const { connectApp } = useApp({
+  //   appId: modelParser.appId,
+  //   autoConnect: true,
+  //   onSuccess: result => {
+  //     console.log("[connect]connect app success, result:", result);
+  //   },
+  // });
 
   const { createdIndexFile, createIndexFile } = useCreateIndexFile({
     onSuccess: result => {
@@ -116,8 +121,12 @@ const App = () => {
    * @summary custom methods
    */
   const connect = useCallback(async () => {
-    connectApp();
-  }, [connectApp]);
+    if (!connectWallet) {
+      message.error("Auth not ready. Please try again later.");
+      return;
+    }
+    await connectWallet(WALLET.METAMASK, "meteor-web");
+  }, [connectWallet]);
 
   const createPost = useCallback(async () => {
     if (!postModel) {

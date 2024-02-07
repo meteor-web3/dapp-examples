@@ -21,7 +21,7 @@ export const AppContext = React.createContext<{
 });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <MeteorContextProvider>
+  <MeteorContextProvider autoInit={false}>
     <AppContext.Provider value={{ appVersion: "0.0.1", modelParser }}>
       <App />
     </AppContext.Provider>

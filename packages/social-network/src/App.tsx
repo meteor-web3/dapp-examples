@@ -1,14 +1,16 @@
 import "./App.css";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 
 import { Message } from "@arco-design/web-react";
+import { Auth } from "@meteor-web3/components";
 import {
-  useApp,
+  // useApp,
   useCreateIndexFile,
   useFeeds,
   useStore,
   useLoadActionFiles,
   useLoadFolders,
+  MeteorContext,
 } from "@meteor-web3/hooks";
 import { ModelParser, Output } from "@meteor-web3/model-parser";
 
@@ -25,6 +27,8 @@ const App = () => {
   const postModelId = postModel.streams[postModel.streams.length - 1].modelId;
   const actionFileModel = modelParser.getModelByName("actionFile");
   const [postContent, setPostContent] = useState<string>();
+  const meteorContext = useContext(MeteorContext);
+  const [isConnectAppPending, setIsConnectAppPending] = useState(false);
 
   /**
    * @summary import from @meteor-web3/hooks
@@ -57,14 +61,6 @@ const App = () => {
     loadFolders();
   }, [pkh]);
 
-  const { connectApp, isPending: isConnectAppPending } = useApp({
-    appId: modelParser.appId,
-    autoConnect: true,
-    onSuccess: result => {
-      console.log("[connect]connect app success, result:", result);
-    },
-  });
-
   const { createIndexFile, isPending: isCreatePostPending } =
     useCreateIndexFile({
       onSuccess: result => {
@@ -96,8 +92,13 @@ const App = () => {
    * @summary custom methods
    */
   const connect = useCallback(async () => {
-    connectApp();
-  }, [connectApp]);
+    setIsConnectAppPending(true);
+    const connectRes = await Auth.openModal(meteorContext, {
+      appId: modelParser.appId,
+    });
+    setIsConnectAppPending(false);
+    console.log(connectRes);
+  }, []);
 
   const createPost = useCallback(async () => {
     if (!postModel) {
@@ -109,7 +110,7 @@ const App = () => {
       return;
     }
     if (!pkh) {
-      await connectApp();
+      await connect();
     }
 
     createIndexFile({

@@ -1,10 +1,11 @@
 import "./App.css";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 
 import { ChainId } from "@arcstone/arcstone-sdk";
 import { DEPLOYED_ADDRESSES as TOKEN_DEPLOYED_ADDRESSES } from "@arcstone/arcstone-sdk/data-token";
+import { Auth } from "@meteor-web3/components";
 import {
-  useApp,
+  // useApp,
   useCollectFile,
   useCreateIndexFile,
   useLoadDataTokens,
@@ -13,6 +14,7 @@ import {
   useStore,
   useUnlockFile,
   useUpdateIndexFile,
+  MeteorContext,
 } from "@meteor-web3/hooks";
 import { ModelParser, Output } from "@meteor-web3/model-parser";
 import ReactJson from "react-json-view";
@@ -26,20 +28,13 @@ const chainId = ChainId.PolygonMumbai;
 const App = () => {
   const postModel = modelParser.getModelByName("post");
   const [currentFileId, setCurrentFileId] = useState<string>();
+  const meteorContext = useContext(MeteorContext);
 
   /**
    * @summary import from @meteor-web3/hooks
    */
 
   const { pkh, filesMap: posts } = useStore();
-
-  const { connectApp } = useApp({
-    appId: modelParser.appId,
-    autoConnect: true,
-    onSuccess: result => {
-      console.log("[connect]connect app success, result:", result);
-    },
-  });
 
   const { createdIndexFile, createIndexFile } = useCreateIndexFile({
     onSuccess: result => {
@@ -111,8 +106,11 @@ const App = () => {
    * @summary custom methods
    */
   const connect = useCallback(async () => {
-    connectApp();
-  }, [connectApp]);
+    const connectRes = await Auth.openModal(meteorContext, {
+      appId: modelParser.appId,
+    });
+    console.log(connectRes);
+  }, []);
 
   const createPost = useCallback(async () => {
     if (!postModel) {
