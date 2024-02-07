@@ -93,9 +93,12 @@ const App = () => {
    */
   const connect = useCallback(async () => {
     setIsConnectAppPending(true);
-    const connectRes = await Auth.openModal(meteorContext, {
-      appId: modelParser.appId,
-    });
+    const connectRes = await Auth.openModal(
+      {
+        appId: modelParser.appId,
+      },
+      meteorContext,
+    );
     setIsConnectAppPending(false);
     console.log(connectRes);
   }, []);

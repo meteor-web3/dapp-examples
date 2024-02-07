@@ -123,9 +123,12 @@ export const FileSystem = () => {
    * @summary custom methods
    */
   const connect = useCallback(async () => {
-    const connectRes = await Auth.openModal(meteorContext, {
-      appId: modelParser.appId,
-    });
+    const connectRes = await Auth.openModal(
+      {
+        appId: modelParser.appId,
+      },
+      meteorContext,
+    );
     console.log(connectRes);
   }, []);
 

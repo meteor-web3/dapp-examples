@@ -5,7 +5,6 @@ import { ChainId } from "@arcstone/arcstone-sdk";
 import { DEPLOYED_ADDRESSES as TOKEN_DEPLOYED_ADDRESSES } from "@arcstone/arcstone-sdk/data-token";
 import { message, useAuth } from "@meteor-web3/components";
 // import { Connector, MeteorWebProvider } from "@meteor-web3/connector";
-import { WALLET } from "@meteor-web3/connector";
 import {
   // useApp,
   useCollectFile,
@@ -125,7 +124,7 @@ const App = () => {
       message.error("Auth not ready. Please try again later.");
       return;
     }
-    await connectWallet(WALLET.METAMASK, "meteor-web");
+    await connectWallet("google", "meteor-web");
   }, [connectWallet]);
 
   const createPost = useCallback(async () => {
