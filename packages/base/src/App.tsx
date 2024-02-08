@@ -3,7 +3,7 @@ import React, { useState, useCallback, useContext } from "react";
 
 import { ChainId } from "@arcstone/arcstone-sdk";
 import { DEPLOYED_ADDRESSES as TOKEN_DEPLOYED_ADDRESSES } from "@arcstone/arcstone-sdk/data-token";
-import { Auth } from "@meteor-web3/components";
+import { Auth, useAuth } from "@meteor-web3/components";
 import {
   // useApp,
   useCollectFile,
@@ -29,6 +29,11 @@ const App = () => {
   const postModel = modelParser.getModelByName("post");
   const [currentFileId, setCurrentFileId] = useState<string>();
   const meteorContext = useContext(MeteorContext);
+  useAuth({
+    appId: modelParser.appId,
+    meteorContext,
+    autoConnect: true,
+  });
 
   /**
    * @summary import from @meteor-web3/hooks
@@ -109,6 +114,7 @@ const App = () => {
     const connectRes = await Auth.openModal(
       {
         appId: modelParser.appId,
+        // autoConnect: true,
       },
       meteorContext,
     );

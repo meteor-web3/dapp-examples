@@ -2,7 +2,7 @@ import "./App.css";
 import React, { useState, useEffect, useCallback, useContext } from "react";
 
 import { Message } from "@arco-design/web-react";
-import { Auth } from "@meteor-web3/components";
+import { Auth, useAuth } from "@meteor-web3/components";
 import {
   // useApp,
   useCreateIndexFile,
@@ -29,6 +29,11 @@ const App = () => {
   const [postContent, setPostContent] = useState<string>();
   const meteorContext = useContext(MeteorContext);
   const [isConnectAppPending, setIsConnectAppPending] = useState(false);
+  useAuth({
+    appId: modelParser.appId,
+    meteorContext,
+    autoConnect: true,
+  });
 
   /**
    * @summary import from @meteor-web3/hooks

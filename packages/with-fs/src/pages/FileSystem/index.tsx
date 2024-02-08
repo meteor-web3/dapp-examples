@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from "react";
 
-import { Auth } from "@meteor-web3/components";
+import { Auth, useAuth } from "@meteor-web3/components";
 import {
   ActionType,
   MirrorFile,
@@ -32,6 +32,11 @@ export const FileSystem = () => {
   const { modelParser } = useContext(AppContext);
   const navigate = useNavigate();
   const meteorContext = useContext(MeteorContext);
+  useAuth({
+    appId: modelParser.appId,
+    meteorContext,
+    autoConnect: true,
+  });
 
   /**
    * @summary import from @meteor-web3/hooks

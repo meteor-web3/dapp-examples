@@ -10,7 +10,7 @@
 
 ## Overview
 
-This is a basic example of a Meteor dapp, which includes two models: `post`
+This is a pwa example of a Meteor dapp, which includes two models: `post`
 and `profile` with locate in `./base/models`. It demonstrates the process of
 creating, loading, monetizing, and unlocking a post by using Meteor hooks.
 

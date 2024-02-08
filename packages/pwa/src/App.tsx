@@ -30,7 +30,11 @@ const App = () => {
   const postModel = modelParser.getModelByName("post");
   const [currentFileId, setCurrentFileId] = useState<string>();
   const meteorContext = useContext(MeteorContext);
-  const { connectWallet } = useAuth(modelParser.appId, meteorContext);
+  const { connectWallet } = useAuth({
+    appId: modelParser.appId,
+    meteorContext,
+    autoConnect: true,
+  });
 
   /**
    * @summary import from @meteor-web3/hooks
@@ -124,7 +128,7 @@ const App = () => {
       message.error("Auth not ready. Please try again later.");
       return;
     }
-    await connectWallet("google", "meteor-web");
+    await connectWallet("Google", "meteor-web");
   }, [connectWallet]);
 
   const createPost = useCallback(async () => {
