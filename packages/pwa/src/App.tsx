@@ -3,9 +3,9 @@ import React, { useState, useCallback, useContext } from "react";
 
 import { ChainId } from "@arcstone/arcstone-sdk";
 import { DEPLOYED_ADDRESSES as TOKEN_DEPLOYED_ADDRESSES } from "@arcstone/arcstone-sdk/data-token";
+import { ModelParser, Output } from "@dataverse/dapp-table";
 import { message, useAuth } from "@meteor-web3/components";
 // import { Connector, MeteorWebProvider } from "@meteor-web3/connector";
-import { ModelParser, Output } from "@meteor-web3/dapp-table";
 import {
   // useApp,
   useCollectFile,

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 import { Message } from "@arco-design/web-react";
+import { ModelParser, Output } from "@dataverse/dapp-table";
 import { ActionType } from "@meteor-web3/connector";
-import { ModelParser, Output } from "@meteor-web3/dapp-table";
 import { useApp, useStore, useCreateActionFile } from "@meteor-web3/hooks";
 
 import app from "../../../output/app.json";

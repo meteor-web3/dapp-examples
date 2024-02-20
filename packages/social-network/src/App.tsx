@@ -2,8 +2,8 @@ import "./App.css";
 import React, { useState, useEffect, useCallback, useContext } from "react";
 
 import { Message } from "@arco-design/web-react";
+import { ModelParser, Output } from "@dataverse/dapp-table";
 import { Auth, useAuth } from "@meteor-web3/components";
-import { ModelParser, Output } from "@meteor-web3/dapp-table";
 import {
   // useApp,
   useCreateIndexFile,
