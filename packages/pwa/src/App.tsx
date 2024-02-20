@@ -5,6 +5,7 @@ import { ChainId } from "@arcstone/arcstone-sdk";
 import { DEPLOYED_ADDRESSES as TOKEN_DEPLOYED_ADDRESSES } from "@arcstone/arcstone-sdk/data-token";
 import { message, useAuth } from "@meteor-web3/components";
 // import { Connector, MeteorWebProvider } from "@meteor-web3/connector";
+import { ModelParser, Output } from "@meteor-web3/dapp-table";
 import {
   // useApp,
   useCollectFile,
@@ -17,7 +18,6 @@ import {
   useUpdateIndexFile,
   MeteorContext,
 } from "@meteor-web3/hooks";
-import { ModelParser, Output } from "@meteor-web3/model-parser";
 import ReactJson from "react-json-view";
 
 import app from "../output/app.json";

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { Message } from "@arco-design/web-react";
 import { ActionType } from "@meteor-web3/connector";
+import { ModelParser, Output } from "@meteor-web3/dapp-table";
 import { useApp, useStore, useCreateActionFile } from "@meteor-web3/hooks";
-import { ModelParser, Output } from "@meteor-web3/model-parser";
 
 import app from "../../../output/app.json";
 import Avatar from "../Avatar";
@@ -164,13 +164,13 @@ const Post = ({ post }: { post: any }) => {
               isLikePending
                 ? loadingIcon
                 : actions?.[post.fileContent.file.fileId] &&
-                  Object.values(actions?.[post.fileContent.file.fileId]).find(
-                    actionFile =>
-                      actionFile.controller === pkh &&
-                      actionFile.action.actionType === ActionType.LIKE,
-                  )
-                ? likeRedIcon
-                : likeIcon
+                    Object.values(actions?.[post.fileContent.file.fileId]).find(
+                      actionFile =>
+                        actionFile.controller === pkh &&
+                        actionFile.action.actionType === ActionType.LIKE,
+                    )
+                  ? likeRedIcon
+                  : likeIcon
             }
             className='like'
           />

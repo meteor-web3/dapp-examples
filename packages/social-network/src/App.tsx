@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback, useContext } from "react";
 
 import { Message } from "@arco-design/web-react";
 import { Auth, useAuth } from "@meteor-web3/components";
+import { ModelParser, Output } from "@meteor-web3/dapp-table";
 import {
   // useApp,
   useCreateIndexFile,
@@ -12,7 +13,6 @@ import {
   useLoadFolders,
   MeteorContext,
 } from "@meteor-web3/hooks";
-import { ModelParser, Output } from "@meteor-web3/model-parser";
 
 import loadingIcon from "./assets/loading.svg";
 import Post from "./components/Post";

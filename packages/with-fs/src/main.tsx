@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
+import { ModelParser, Output } from "@meteor-web3/dapp-table";
 import { MeteorContextProvider } from "@meteor-web3/hooks";
-import { ModelParser, Output } from "@meteor-web3/model-parser";
 
 import App from "./App";
 import app from "../output/app.json";
