@@ -4,19 +4,16 @@ export const config = {
   website: [], // you can use localhost:(port) for testing
   defaultFolderName: "Main",
   description: "This is a meteor app example.",
-  feeRatio: 0.1,
   models: [
     {
       isPublicDomain: false, // default
       schemaName: "post.graphql",
       encryptable: ["text", "images", "videos"], // strings within the schema and within the array represent fields that may be encrypted, while fields within the schema but not within the array represent fields that will definitely not be encrypted
-      feeRatio: 0.1,
     },
     {
       isPublicDomain: true,
       schemaName: "profile.graphql",
       encryptable: [],
-      feeRatio: 0.1,
     },
   ],
   ceramicUrl: null, // leave null to use dataverse test Ceramic node. Set to {Your Ceramic node Url} for mainnet, should start with "https://".
